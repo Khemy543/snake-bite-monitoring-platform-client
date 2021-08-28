@@ -13,7 +13,7 @@
     </div>
     <br/>
     <base-table :data="table" thead-classes="text-primary">
-      <template slot="columns" slot-scope="{ columns }">
+      <template slot="columns">
         <th>#</th>
         <th>Name</th>
         <th>Director General</th>

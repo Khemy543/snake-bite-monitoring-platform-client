@@ -1,74 +1,42 @@
 <template>
-    <div>
-            <div class="row">
-              <div class="col-md-12">
+    <div class=" container">
+            <div class="row row justify-content-center align-items-center">
+              <div class="col-md-6">
                 <form @submit.prevent="AddDistrict">
-                    
-                  <base-input
-                        type="text"
-                        label="Name of region"
-                        placeholder="Name"
-                        v-model="form.name"
-                    >
-                    </base-input>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class=" col-md-6">
                             <base-input
                                 type="text"
-                                label="Director General"
-                                placeholder="Director General"
-                                v-model="form.name_of_director_general"
+                                label="Name of District"
+                                placeholder="Name"
+                                v-model="form.name"
                             >
-                            </base-input>
+                        </base-input>
                         </div>
-                        <div class="col-md-6">
-                            <base-input
-                                type="textt"
-                                label="Director General Address"
-                                placeholder="Address"
-                                v-model="form.address_of_director_general"
-                            >
-                            </base-input>
+                        <div class=" col-md-6">
+                            <label>Select Region</label>
+                            <br/>
+                            <el-select class="select-danger"
+                                        style="width : 100%;"
+                                        placeholder="Select Region"
+                                        v-model="form.region_id">
+                                <el-option v-for="region in regions"
+                                        class="select-danger"
+                                        :value="region.id"
+                                        :label="region.name"
+                                        :key="region.id">
+                                </el-option>
+                            </el-select>
                         </div>
                     </div>
+                  
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <base-input
                                 type="text"
-                                label="Regional Director"
-                                placeholder="Regional Director"
-                                v-model="form.name_of_regional_health_director"
-                            >
-                            </base-input>
-
-                        </div>
-                        <div class="col-md-6">
-                            <base-input
-                                type="text"
-                                label="Regional Director Address"
-                                placeholder="Address"
-                                v-model="form.address_of_regional_health_director"
-                            >
-                            </base-input>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <base-input
-                                type="text"
-                                label="Regional Minister"
-                                placeholder="Regional Minister"
-                                v-model="form.name_of_regional_minister"
-                            >
-                            </base-input>
-                        </div>
-                        <div class="col-md-6">
-                            
-                            <base-input
-                                type="text"
-                                label="Regional Minister Address"
-                                placeholder="Address"
-                                v-model="form.address_of_regional_minister"
+                                label="Address of District health of directorate"
+                                placeholder="Address of District health of directorate"
+                                v-model="form.address_of_district_health_directorate"
                             >
                             </base-input>
                         </div>
@@ -86,17 +54,18 @@
     export default {
         data(){
             return{
+                regions:[],
                 loading : false,
                 form : {
                     name: "",
-                    name_of_director_general : "",
-                    address_of_director_general : "",
-                    name_of_regional_health_director : "",
-                    address_of_regional_health_director : "",
-                    name_of_regional_minister : "",
-                    address_of_regional_minister : ""
+                    address_of_district_health_of_directorate : "",
+                    region_id : ""
                 }
             }
+        },
+        async asyncData({ $axios }) {
+            const regions = await $axios.get("admin/fetch/regions");
+            return { regions: regions.data };
         },
         methods : {
             AddDistrict(){
@@ -106,12 +75,8 @@
                     this.$notify({ type:'success', message : 'Region added successfully' });
                     this.form = {
                         name: "",
-                        name_of_director_general : "",
-                        address_of_director_general : "",
-                        name_of_regional_health_director : "",
-                        address_of_regional_health_director : "",
-                        name_of_regional_minister : "",
-                        address_of_regional_minister : ""
+                        address_of_district_health_directorate : "",
+                        region_id : ""
                     }
                 })
                 .catch(error => {

@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="d-flex justify-content-between">
-      <h4 slot="header" class="card-title">Regions</h4>
+      <h4 slot="header" class="card-title">Facilities</h4>
       <base-button
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addDistrict"
+        @click="addFacility"
       >
         Add District
       </base-button>
@@ -15,25 +15,17 @@
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns" slot-scope="{ columns }">
         <th>#</th>
-        <th>Name</th>
-        <th>Director General</th>
-        <th>Address</th>
-        <th>Regional Director</th>
-        <th>Address</th>
-        <th>Regional Minister</th>
-        <th>Address</th>
+        <th>Name of District</th>
+        <th>Region</th>
+        <th>Address of District health of directorate</th>
         <th class="text-right">Actions</th>
       </template>
 
       <template slot-scope="{ row, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.name_of_director_general }}</td>
-        <td>{{ row.address_of_director_general }}</td>
-        <td>{{ row.name_of_regional_health_director }}</td>
-        <td>{{ row.address_of_regional_health_director }}</td>
-        <td>{{ row.name_of_regional_minister }}</td>
-        <td>{{ row.address_of_regional_minister }}</td>
+        <td>{{ row.region.name }}</td>
+        <td>{{ row.address_of_district_health_directorate }}</td>
         <td class="text-right">
           <el-tooltip
             content="Edit"
@@ -91,7 +83,7 @@ export default {
   },
 
   methods: {
-    addDistrict() {
+    addFacility() {
       this.$router.push("/district/add-district");
     },
     DeleteRegion(id){

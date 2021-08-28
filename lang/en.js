@@ -1,10 +1,11 @@
 module.exports = {
   "sidebar": {
-    "title": "Creative Tim",
+    "title": "SMP",
     "shortTitle": "CT",
     "dashboard": "Dashboard",
     "pages": "Pages",
     "pricing": "Pricing",
+    "facilitators" : "Facilitators",
     "rtl": "RTL Support",
     "timeline": "Timeline",
     "login": "Login",
@@ -13,6 +14,7 @@ module.exports = {
     "userProfile": "User Profile",
     "regions":"Regions",
     "districts" : "Districts",
+    "facilities" : "Facilities",
     "components": "Components",
     "multiLevelCollapse": "Multilevel Collapse",
     "example": "Example Page",
