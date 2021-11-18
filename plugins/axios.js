@@ -18,6 +18,7 @@ export default function ({ app, $axios, store, redirect , error, $notify}) {
         if (errordata.response) {
             switch (status) {
                 case 401:
+                    app.$cookies.remove('authToken');
                     return redirect('/login');
                 case 404:
                     return;
@@ -25,7 +26,7 @@ export default function ({ app, $axios, store, redirect , error, $notify}) {
                     const message = (data.message && data.message != '') ? data.message : 'This action not allowed at the moment!';
                     $notify.open({type: 'danger', message : message  });
                 case 500:
-                    return error({ statusCode : 500, message : 'we are working quickly to get you back to advertising' })
+                    return error({ statusCode : 500, message : 'Something happend at our side!' })
             }
 
         } else {

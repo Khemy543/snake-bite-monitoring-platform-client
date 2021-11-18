@@ -30,8 +30,11 @@ import RTLPlugin from './RTLPlugin';
 // element ui language configuration
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
+import VueGeolocation from 'vue-browser-geolocation';
+
 locale.use(lang);
 
+Vue.use(VueGeolocation);
 Vue.use(RTLPlugin);
 Vue.use(SideBar);
 Vue.use(Notifications);

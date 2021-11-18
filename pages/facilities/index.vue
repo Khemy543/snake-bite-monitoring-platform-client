@@ -6,12 +6,12 @@
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addDistrict"
+        @click="addFacility"
       >
         Add Facility
       </base-button>
     </div>
-    <br/>
+    <div class=" card p-4 mt-4">  
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
@@ -29,7 +29,7 @@
         <td>{{ row.district.region.name}}</td>
         <td class=" cursor-pointer underline" @click="openMaps(row.lat, row.long)">View</td>
         <td class="text-right">
-          <nuxt-link :to="`/facilitators/${row.id}/add-facilitator`">
+          <nuxt-link :to="`/facilities/${row.id}/add-facilitator`">
           <el-tooltip
               content="Add Facilitator"
               effect="light"
@@ -52,7 +52,7 @@
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/regions/${row.id}/edit-regions`">
+          <nuxt-link :to="`/facilities/${row.id}/edit-facility`">
             <base-button
               type="success"
               icon
@@ -74,15 +74,22 @@
               icon
               size="sm"
               class="btn-link"
-              @click="DeleteRegion(row.id)"
+              @click="DeleteFacility(row.id)"
             >
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
           </el-tooltip>
         </td>
-        <!-- <base-pagination :page-count="4" v-model="pagination.current_page"></base-pagination> -->
       </template>
     </base-table>
+    <div>
+      <base-pagination 
+        :pageCount="pagination.last_page" 
+        :perPage="pagination.per_page" 
+        :total="pagination.total">
+      </base-pagination>
+    </div>
+    </div>
   </div>
 </template>
 <script>
@@ -94,34 +101,33 @@ export default {
   async asyncData({ $axios }) {
     const facilities = await $axios.get("admin/fetch/facilities");
     const { data, meta , links } = facilities.data
+    console.log(meta)
     return { 
         table: data,
         pagination : {
+            per_page: meta.per_page,
             last_page : links.last_page,
             current_page : meta.current_page,
             next_page : links.next,
             first_page:links.first,
-            total : meta.last_page
+            last_page : meta.last_page,
+            total : meta.total
         }
      };
   },
   data() {
     return {
       table: [],
-      pagination : {
-          current_page:1
-      }
+      pagination : {}
     };
   },
 
   methods: {
-    addDistrict() {
-      this.$router.push("/facilities/add-facility");
+    addFacility(){
+      this.$router.push('facilities/add-facility')
     },
-    openMaps(lat , long){
-      console.log("lat :" , lat, "long : ", long)
-    },
-    DeleteRegion(id){
+   
+    DeleteFacility(id){
         this.$swal({
         title: "Delete Facility",
         text: "This Facility will be deleted",

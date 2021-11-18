@@ -2,12 +2,9 @@
   <div class="sidebar" :data="backgroundColor">
     <div class="sidebar-wrapper" ref="sidebarScrollArea">
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          <img :src="logo" alt="app-logo" />
+        <a>
+          <img src="~/static/img/logo.png" alt="app-logo" />
         </a>
-        <nuxt-link to="/" class="simple-text logo-normal">
-          SMP
-        </nuxt-link>
       </div>
       <slot></slot>
       <ul class="nav">

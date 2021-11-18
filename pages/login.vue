@@ -63,7 +63,12 @@ export default {
                 }
             })
             .catch(error => {
-                console.log(error)
+                if(error && error.response){
+                    const { status } = error.response;
+                    if(status == 401){
+                        this.$notify({type:'danger', message :'Incorrect Credentials'})
+                    }
+                }
             })
             .finally((_) => this.loading = false)
         }

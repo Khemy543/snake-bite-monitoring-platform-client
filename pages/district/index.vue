@@ -1,19 +1,20 @@
 <template>
   <div>
     <div class="d-flex justify-content-between">
-      <h4 slot="header" class="card-title">Facilities</h4>
+      <h4 slot="header" class="card-title">Districts</h4>
       <base-button
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addFacility"
+        @click="addDistrict"
       >
         Add District
       </base-button>
     </div>
     <br/>
+    <div class=" card p-4">
     <base-table :data="table" thead-classes="text-primary">
-      <template slot="columns" slot-scope="{ columns }">
+      <template slot="columns">
         <th>#</th>
         <th>Name of District</th>
         <th>Region</th>
@@ -33,7 +34,7 @@
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/regions/${row.id}/edit-regions`">
+          <nuxt-link :to="`/district/${row.id}/edit-district`">
             <base-button
               type="success"
               icon
@@ -63,6 +64,7 @@
         </td>
       </template>
     </base-table>
+    </div>
   </div>
 </template>
 <script>
@@ -83,7 +85,7 @@ export default {
   },
 
   methods: {
-    addFacility() {
+    addDistrict() {
       this.$router.push("/district/add-district");
     },
     DeleteRegion(id){

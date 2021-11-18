@@ -1,39 +1,30 @@
 <template>
   <div>
     <div class="d-flex justify-content-between">
-      <h4 slot="header" class="card-title">Regions</h4>
-      <base-button
-        native-type="button"
-        type="primary"
-        class="btn-fill"
-        @click="addFacilitators"
-      >
-        Add Facilitators
-      </base-button>
+      <h4 slot="header" class="card-title">Facilitators</h4>
     </div>
     <br/>
+    <div class="card p-4">
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
         <th>Name</th>
-        <th>Director General</th>
-        <th>Address</th>
-        <th>Regional Director</th>
-        <th>Address</th>
-        <th>Regional Minister</th>
-        <th>Address</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Facility</th>
+        <th>Created At</th>
+        <th>Status</th>
         <th class="text-right">Actions</th>
       </template>
 
       <template slot-scope="{ row, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.name_of_director_general }}</td>
-        <td>{{ row.address_of_director_general }}</td>
-        <td>{{ row.name_of_regional_health_director }}</td>
-        <td>{{ row.address_of_regional_health_director }}</td>
-        <td>{{ row.name_of_regional_minister }}</td>
-        <td>{{ row.address_of_regional_minister }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.phone }}</td>
+        <td>{{ row.facility.name }}</td>
+        <td>{{ row.created_at }}</td>
+        <td>{{ row.active ? 'Active' : 'InActive' }}</td>
         <td class="text-right">
           <el-tooltip
             content="Edit"
@@ -41,7 +32,7 @@
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/regions/${row.id}/edit-regions`">
+          <nuxt-link :to="`/facilitators/${row.id}/edit-facilitator`">
             <base-button
               type="success"
               icon
@@ -72,6 +63,7 @@
       </template>
     </base-table>
   </div>
+  </div>
 </template>
 <script>
 import { BaseTable } from "@/components";
@@ -80,8 +72,9 @@ export default {
     BaseTable,
   },
   async asyncData({ $axios }) {
-    const regions = await $axios.get("admin/fetch/regions");
-    return { table: regions.data };
+    const response = await $axios.get("admin/fetch/facilitators");
+    const { data, meta, links } = response.data;
+    return { table : data, meta:meta };
   },
   data() {
     return {
@@ -93,9 +86,6 @@ export default {
   methods: {
     openModal() {
       this.modal = true;
-    },
-    addFacilitators() {
-      this.$router.push("/facilitators/add-facilitator");
     },
     DeleteRegion(id){
         this.$swal({

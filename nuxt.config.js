@@ -33,11 +33,8 @@ export default {
       },
 
     ],
-    script:[
-      {  src:"https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"}
-    ],
     bodyAttrs: {
-      class: '' // Add `white-content` class here to enable "white" mode.
+      class: 'white-content'
     }
   },
   router: {
@@ -60,12 +57,15 @@ export default {
   */
   plugins: [
     `~/plugins/dashboard-plugin.js`,
-    `~/plugins/axios.js`
+    `~/plugins/axios.js`,
+    "~/plugins/maps.js"
   ],
   /*
   ** Nuxt.js dev-modules
   */
-  buildModules: [],
+  buildModules: [
+    '@nuxtjs/dotenv'
+  ],
   /*
   ** Nuxt.js modules
   */
@@ -100,7 +100,10 @@ export default {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/],
+    transpile: [
+      /^element-ui/,
+      /^vue2-google-maps($|\/)/
+    ],
     /*
     ** You can extend webpack config here
     */

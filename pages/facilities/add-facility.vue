@@ -2,6 +2,7 @@
     <div class=" container">
             <div class="row row justify-content-center align-items-center">
               <div class="col-md-5">
+                  <div class=" card p-4">
                 <form @submit.prevent="AddDistrict">
                     <div class="row">
                         <div class=" col-md-12">
@@ -14,7 +15,7 @@
                         </base-input>
                         </div>
                     </div>
-                  
+                    <br />
                     <div class="row">
                         <div class=" col-md-12">
                             <label>Select District</label>
@@ -32,17 +33,51 @@
                             </el-select>
                         </div>
                     </div>
+                    <br/>
+                    <div class="row">
+                        <div class=" col-md-12">
+                            <base-input
+                                type="text"
+                                label="Location"
+                                placeholder="Location"
+                                v-model="form.location"
+                            >
+                        </base-input>
+                        <div class=" text-right text-underline pointer" @click="openMap">Pick on Map</div>
+                        </div>
+                    </div>
+                    <br/>
                   <base-button native-type="submit" type="primary" class="btn-fill" :loading="loading">
                     Save
                   </base-button>
                 </form>
               </div>
             </div>
+
+            <modal :show.sync="showMaps">
+                <template slot="header">
+                    <div>
+                        Choose Location on Map
+                    </div>
+                </template>
+                <div style="width:100%; height:300px;">
+                    <Map />
+                </div>
+                <template slot="footer">
+                    <div></div>
+                    <base-button type="primary">Save</base-button>
+                </template>
+            </modal>
+            </div>
     </div>
 </template>
 
 <script>
     export default {
+        components : {
+            Map : () => import('~/components/Map.vue'),
+            Modal : () => import('~/components/Modal.vue')
+        },
         data(){
             return{
                 districts:[],
@@ -52,7 +87,8 @@
                     long : 43,
                     name: "",
                     district_id : ""
-                }
+                },
+                showMaps : false
             }
         },
         async asyncData({ $axios }) {
@@ -60,6 +96,9 @@
             return { districts: districts.data };
         },
         methods : {
+             openMap(lat , long){
+                this.showMaps = true;
+            },
             AddDistrict(){
                 this.loading = true; 
                 this.$axios.$post('admin/store/facility',this.form)

@@ -2,6 +2,7 @@
     <div>
             <div class="row">
               <div class="col-md-12">
+                  <div class="card p-3">
                 <form @submit.prevent="AddRegion">
                     
                   <base-input
@@ -78,6 +79,7 @@
                   </base-button>
                 </form>
               </div>
+            </div>
             </div>
     </div>
 </template>

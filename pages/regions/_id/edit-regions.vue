@@ -2,6 +2,7 @@
     <div>
             <div class="row">
               <div class="col-md-12">
+                  <div class=" card p-4">
                 <form @submit.prevent="EditRegion">
                     
                   <base-input
@@ -74,10 +75,11 @@
                         </div>
                     </div>
                   <base-button native-type="submit" type="primary" class="btn-fill" :loading="loading">
-                    Save
+                    Update
                   </base-button>
                 </form>
               </div>
+            </div>
             </div>
     </div>
 </template>
@@ -101,27 +103,27 @@
         methods : {
             EditRegion(){
                 this.loading = true; 
-                this.$axios.$patch('admin/store/regions',this.form)
+                this.$axios.patch(`admin/update/${this.$route.params.id}/regions`,this.form)
                 .then(response => {
-                    this.$notify({ type:'success', message : 'Region added successfully' });
-                    this.form = {
-                        name: "",
-                        name_of_director_general : "",
-                        address_of_director_general : "",
-                        name_of_regional_health_director : "",
-                        address_of_regional_health_director : "",
-                        name_of_regional_minister : "",
-                        address_of_regional_minister : ""
-                    }
+                    this.$notify({ type:'success', message : 'Region updated successfully' });
                 })
                 .catch(error => {
-                    this.$notify({ type : 'error', message : 'Error adding region, Please try again later' })
+                    this.$notify({ type : 'error', message : 'Error updating region, Please try again later' })
                 })
                 .finally((_) => this.loading = false)
             }
         },
-        async asynData({ $axios, route }){
-            const response = await $axios.get('')
+        async asyncData({ $axios, route }){
+            try {
+                const response = await $axios.get(`admin/fetch/${route.params.id}/region`);
+                
+                if(response && response.data){
+                    //console.log(response.data)
+                    return { form : response.data }
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 </script>

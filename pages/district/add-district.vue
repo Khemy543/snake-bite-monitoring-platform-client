@@ -2,6 +2,7 @@
     <div class=" container">
             <div class="row row justify-content-center align-items-center">
               <div class="col-md-6">
+                <div class="card p-4">
                 <form @submit.prevent="AddDistrict">
                     <div class="row">
                         <div class=" col-md-6">
@@ -46,6 +47,7 @@
                   </base-button>
                 </form>
               </div>
+            </div>
             </div>
     </div>
 </template>

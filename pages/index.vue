@@ -15,25 +15,21 @@
                 :class="isRTL ? 'float-left' : 'float-right'"
                 data-toggle="buttons"
               >
-                <label
-                  v-for="(option, index) in bigLineChartCategories"
-                  :key="option.name"
-                  class="btn btn-sm btn-primary btn-simple"
-                  :class="{ active: bigLineChart.activeIndex === index }"
-                  :id="index"
-                >
-                  <input
-                    type="radio"
-                    @click="initBigChart(index)"
-                    name="options"
-                    autocomplete="off"
-                    :checked="bigLineChart.activeIndex === index"
-                  />
-                  <span class="d-none d-sm-block">{{ option.name }}</span>
-                  <span class="d-block d-sm-none">
-                    <i :class="option.icon"></i>
-                  </span>
-                </label>
+                <div class=" d-flex">
+                   <base-input class=" mr-3">
+                    <el-date-picker v-model="start_date"
+                                    type="date"
+                                    placeholder="Start Date">
+                      </el-date-picker>
+                  </base-input>
+
+                   <base-input>
+                    <el-date-picker v-model="end_date"
+                                    type="date"
+                                    placeholder="End Date">
+                      </el-date-picker>
+                  </base-input>
+                </div>
               </div>
             </div>
           </div>
@@ -216,6 +212,8 @@ export default {
   },
   data () {
     return {
+      start_date:null,
+      end_date:null,
       tableData: [
         {
           id: 1,
@@ -341,6 +339,10 @@ export default {
         },
         gradientColors: config.colors.primaryGradient,
         gradientStops: [1, 0.4, 0]
+      },
+      form : {
+        start_date : null,
+        end_date:null
       }
     };
   },
@@ -370,9 +372,21 @@ export default {
       this.$refs.bigChart.updateGradients(chartData);
       this.bigLineChart.chartData = chartData;
       this.bigLineChart.activeIndex = index;
+    },
+    async loadDashboardStats(){
+      try {
+        const response = await this.$axios.get(`admin/fetch/dashboard/stats`);
+
+        if(response && response.data){
+          console.log(response)
+        }
+      } catch (error) {
+        
+      }
     }
   },
   mounted () {
+    this.loadDashboardStats();
     this.initBigChart(0);
   }
 }

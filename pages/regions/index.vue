@@ -12,6 +12,10 @@
       </base-button>
     </div>
     <br/>
+
+    <div class="card">
+    <div class="row">
+      <div class="col-md-12 p-4">
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
@@ -71,6 +75,9 @@
         </td>
       </template>
     </base-table>
+    </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
