@@ -65,8 +65,10 @@ export default {
             .catch(error => {
                 if(error && error.response){
                     const { status } = error.response;
+                    console.log(status)
                     if(status == 401){
-                        this.$notify({type:'danger', message :'Incorrect Credentials'})
+                        console.log('here')
+                        this.$notify({type:'success', message :'Login successfull!'})
                     }
                 }
             })
