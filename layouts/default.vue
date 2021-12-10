@@ -6,7 +6,7 @@
       :short-title="$t('sidebar.shortTitle')"
       :title="$t('sidebar.title')"
     >
-      <template slot-scope="props" slot="links">
+      <template slot="links">
         <sidebar-item
           :link="{
             name: $t('sidebar.dashboard'),
@@ -17,35 +17,17 @@
         </sidebar-item>
         <sidebar-item
           :link="{
-            name: $t('sidebar.regions'),
+            name: $t('sidebar.products'),
             icon: 'tim-icons icon-atom',
-            path: '/regions'
+            path: '/products'
           }"
         >
         </sidebar-item>
         <sidebar-item
           :link="{
-            name: $t('sidebar.districts'),
+            name: $t('sidebar.victims'),
             icon: 'tim-icons icon-pin',
-            path: '/district'
-          }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.facilities'),
-            icon: 'tim-icons icon-pin',
-            path: '/facilities'
-          }"
-        >
-        </sidebar-item>
-
-        <sidebar-item
-          :link="{
-            name: $t('sidebar.facilitators'),
-            icon: 'tim-icons icon-pin',
-            path: '/facilitators'
+            path: '/victims'
           }"
         >
         </sidebar-item>

@@ -2,7 +2,7 @@ export default function ({ store, redirect, app, $axios }) {
     const user = store.getters['getUser'];
 
     if (!user) {
-       return $axios.get('admin')
+       return $axios.get('auth/user')
        .then(response => {
             store.dispatch('setUser', response.data);
        })

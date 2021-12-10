@@ -243,10 +243,10 @@ export default {
         }],
         labels
       };
-      this.$refs.purpleChart.updateGradients(chartData);
+      this.$refs.greenChart.updateGradients(chartData);
       this.purpleLineChart.chartData = chartData;
     },
-    initProductChart (data, labels) {
+    initReportedChart (data, labels) {
       let chartData = {
         datasets: [{
           ...greenChartDatasetOptions,
@@ -254,7 +254,7 @@ export default {
         }],
         labels
       };
-      this.$refs.greenChart.updateGradients(chartData);
+      this.$refs.purpleChart.updateGradients(chartData);
       this.greenLineChart.chartData = chartData;
     },
     async loadDashboardStats(){
@@ -262,14 +262,14 @@ export default {
         if(this.start_date && this.end_date && moment(this.start_date).isAfter(this.end_date)){
           return this.$notify({type:'danger', message:"End date must be greater than start date"})
         }
-        const response = await this.$axios.get(`admin/fetch/dashboard/stats`,{
+        const response = await this.$axios.get(`fetch/dashboard/stats`,{
           params:{
-            ...(this.start_date && this.end_date ? {
-            start_date:moment(this.start_date).format('YYYY-MM-DD'),
-            end_date:moment(this.end_date).format('YYYY-MM-DD')
-            } : {})
-          }
+            start_date: this.start_date ? moment(this.start_date).format('YYYY-MM-DD') : null,
+            end_date: this.end_date ? moment(this.end_date).format('YYYY-MM-DD') : null
+            }
         });
+
+        console.log(response.data)
 
         if(response && response.data){
           const { products_stats, reported_cases, victims_stats } = response.data;
@@ -292,9 +292,9 @@ export default {
               victims_labels.push(stat.created_at);
               victims_data.push(stat.counts)
             });
-            this.initBigChart(reported_cases_data, reported_cases_labels);
+            this.initReportedChart(reported_cases_data, reported_cases_labels);
             this.initVictimsChart(victims_data, victims_labels);
-            this.initProductChart(product_data,product_labels);
+            this.initBigChart(product_data,product_labels);
         }
       } catch (error) {
         console.log(error)

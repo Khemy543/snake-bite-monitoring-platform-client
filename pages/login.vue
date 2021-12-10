@@ -41,7 +41,7 @@ export default {
     methods :{
         handleLogin() {
             this.loading = true;
-            this.$axios.post('admin/auth/login',{
+            this.$axios.post('auth/login',{
                 email : this.email,
                 password :this.password
             })
@@ -54,7 +54,7 @@ export default {
                     maxAge: 604800,
                 });
 
-                this.$axios.get('admin')
+                this.$axios.get('auth/user')
                 .then(res => {
                     this.$store.dispatch('setUser', res.data);
                     this.$router.push('/')

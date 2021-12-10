@@ -78,11 +78,11 @@ export default {
     },
     centered: {
       type: Boolean,
-      default: false
+      default: true
     },
     appendToBody: {
       type: Boolean,
-      default: true,
+      default: false,
       description: 'Whether modal should be appended to document body'
     },
     scrollToBottom: {

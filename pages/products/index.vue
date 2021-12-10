@@ -1,58 +1,47 @@
 <template>
   <div>
     <div class="d-flex justify-content-between">
-      <h4 slot="header" class="card-title">Facilities</h4>
+      <h4 slot="header" class="card-title">Products</h4>
       <base-button
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addFacility"
+        @click="addProduct"
       >
-        Add Facility
+        Add Product
       </base-button>
     </div>
-    <div class=" card p-4 mt-4">  
+    <br/>
+
+    <div class="card">
+    <div class="row">
+      <div class="col-md-12 p-4">
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
-        <th>Name of Facility</th>
-        <th>Region</th>
-        <th>District</th>
-        <th>View on map</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Source</th>
+        <th>Quantity</th>
+        <th>Expiry Date</th>
         <th class="text-right">Actions</th>
       </template>
 
       <template slot-scope="{ row, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.district.name }}</td>
-        <td>{{ row.district.region.name}}</td>
-        <td class=" cursor-pointer underline" @click="openMaps(row.lat, row.long)">View</td>
+        <td>{{ row.brand }}</td>
+        <td>{{ row.source }}</td>
+        <td>{{ row.quantity }}</td>
+        <td>{{ row.expiry_date }}</td>
         <td class="text-right">
-          <nuxt-link :to="`/facilities/${row.id}/add-facilitator`">
-          <el-tooltip
-              content="Add Facilitator"
-              effect="light"
-              :open-delay="300"
-              placement="top"
-          >
-              <base-button
-              type="info"
-              icon
-              size="sm"
-              class="btn-link"
-              >
-              <i class="tim-icons icon-simple-add"></i>
-              </base-button>
-          </el-tooltip>
-          </nuxt-link>
           <el-tooltip
             content="Edit"
             effect="light"
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/facilities/${row.id}/edit-facility`">
+          <nuxt-link :to="`/products/${row.id}/edit-product`">
             <base-button
               type="success"
               icon
@@ -74,7 +63,7 @@
               icon
               size="sm"
               class="btn-link"
-              @click="DeleteFacility(row.id)"
+              @click="DeleteRegion(row.id)"
             >
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
@@ -82,13 +71,8 @@
         </td>
       </template>
     </base-table>
-    <div>
-      <base-pagination 
-        :pageCount="pagination.last_page" 
-        :perPage="pagination.per_page" 
-        :total="pagination.total">
-      </base-pagination>
     </div>
+      </div>
     </div>
   </div>
 </template>
@@ -99,38 +83,37 @@ export default {
     BaseTable,
   },
   async asyncData({ $axios }) {
-    const facilities = await $axios.get("admin/fetch/facilities");
-    const { data, meta , links } = facilities.data
-    console.log(meta)
-    return { 
-        table: data,
-        pagination : {
-            per_page: meta.per_page,
-            last_page : links.last_page,
-            current_page : meta.current_page,
-            next_page : links.next,
-            first_page:links.first,
-            last_page : meta.last_page,
-            total : meta.total
-        }
-     };
+    try {
+      const regions = await $axios.get("fetch/products");
+      if(regions){
+
+        const { data, meta, links } = regions.data;
+        return { table: data };
+
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }
   },
   data() {
     return {
       table: [],
-      pagination : {}
+      modal: false,
     };
   },
 
   methods: {
-    addFacility(){
-      this.$router.push('facilities/add-facility')
+    openModal() {
+      this.modal = true;
     },
-   
-    DeleteFacility(id){
+    addProduct() {
+      this.$router.push("/products/add-product");
+    },
+    DeleteRegion(id){
         this.$swal({
-        title: "Delete Facility",
-        text: "This Facility will be deleted",
+        title: "Delete Product",
+        text: "This Products will be deleted",
         icon: "warning",
         showCancelButton: true,
         allowOutsideClick: false,
@@ -140,12 +123,12 @@ export default {
             let cancelBtn = document.getElementsByClassName("swal2-cancel")[0];
             cancelBtn.style.display = "none";
 
-            return this.$axios.delete(`admin/delete/${id}/facility`)
+            return this.$axios.delete(`delete/${id}/product`)
             .then(response => {
                 this.table = this.table.filter(item => item.id !== id);
                 this.$notify({
                     type:'success',
-                    message : 'Facility deleted successfully'
+                    message : 'Products deleted successfully'
                 })
             })
             .catch(error => {

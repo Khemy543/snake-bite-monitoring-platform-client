@@ -1,51 +1,60 @@
 <template>
   <div>
     <div class="d-flex justify-content-between">
-      <h4 slot="header" class="card-title">Regions</h4>
+      <h4 slot="header" class="card-title">Victims</h4>
       <base-button
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addRegion"
+        @click="addVictim"
       >
-        Add Region
+        Add Victim
       </base-button>
     </div>
-    <br/>
-
-    <div class="card">
-    <div class="row">
-      <div class="col-md-12 p-4">
+    <div class=" card p-4 mt-4">  
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
-        <th>Name</th>
-        <th>Director General</th>
-        <th>Address</th>
-        <th>Regional Director</th>
-        <th>Address</th>
-        <th>Regional Minister</th>
-        <th>Address</th>
+        <th>Name of Victim</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>District</th>
+        <th>Town</th>
         <th class="text-right">Actions</th>
       </template>
 
       <template slot-scope="{ row, index }">
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.name_of_director_general }}</td>
-        <td>{{ row.address_of_director_general }}</td>
-        <td>{{ row.name_of_regional_health_director }}</td>
-        <td>{{ row.address_of_regional_health_director }}</td>
-        <td>{{ row.name_of_regional_minister }}</td>
-        <td>{{ row.address_of_regional_minister }}</td>
+        <td>{{ row.gender}}</td>
+        <td>{{ row.age}}</td>
+        <td>{{row.district.name}}</td>
+        <td>{{row.town}}</td>
         <td class="text-right">
+          <nuxt-link :to="`/facilities/${row.id}/add-facilitator`">
+          <el-tooltip
+              content="Add Facilitator"
+              effect="light"
+              :open-delay="300"
+              placement="top"
+          >
+              <base-button
+              type="info"
+              icon
+              size="sm"
+              class="btn-link"
+              >
+              <i class="tim-icons icon-simple-add"></i>
+              </base-button>
+          </el-tooltip>
+          </nuxt-link>
           <el-tooltip
             content="Edit"
             effect="light"
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/regions/${row.id}/edit-regions`">
+          <nuxt-link :to="`/facilities/${row.id}/edit-Victim`">
             <base-button
               type="success"
               icon
@@ -67,7 +76,7 @@
               icon
               size="sm"
               class="btn-link"
-              @click="DeleteRegion(row.id)"
+              @click="DeleteVictim(row.id)"
             >
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
@@ -75,8 +84,13 @@
         </td>
       </template>
     </base-table>
+    <div>
+      <base-pagination 
+        :pageCount="pagination.last_page" 
+        :perPage="pagination.per_page" 
+        :total="pagination.total">
+      </base-pagination>
     </div>
-      </div>
     </div>
   </div>
 </template>
@@ -87,27 +101,38 @@ export default {
     BaseTable,
   },
   async asyncData({ $axios }) {
-    const regions = await $axios.get("admin/fetch/regions");
-    return { table: regions.data };
+    const facilities = await $axios.get("/fetch/victims");
+    const { data, meta , links } = facilities.data
+    console.log(meta)
+    return { 
+        table: data,
+        pagination : {
+            per_page: meta.per_page,
+            last_page : links.last_page,
+            current_page : meta.current_page,
+            next_page : links.next,
+            first_page:links.first,
+            last_page : meta.last_page,
+            total : meta.total
+        }
+     };
   },
   data() {
     return {
       table: [],
-      modal: false,
+      pagination : {}
     };
   },
 
   methods: {
-    openModal() {
-      this.modal = true;
+    addVictim(){
+      this.$router.push('victims/add-victim')
     },
-    addRegion() {
-      this.$router.push("/regions/add-region");
-    },
-    DeleteRegion(id){
+   
+    DeleteVictim(id){
         this.$swal({
-        title: "Delete Region",
-        text: "This Region will be deleted",
+        title: "Delete Victim",
+        text: "This Victim will be deleted",
         icon: "warning",
         showCancelButton: true,
         allowOutsideClick: false,
@@ -117,12 +142,12 @@ export default {
             let cancelBtn = document.getElementsByClassName("swal2-cancel")[0];
             cancelBtn.style.display = "none";
 
-            return this.$axios.delete(`admin/delete/${id}/regions`)
+            return this.$axios.delete(`/delete/${id}/victim`)
             .then(response => {
                 this.table = this.table.filter(item => item.id !== id);
                 this.$notify({
                     type:'success',
-                    message : 'Region deleted successfully'
+                    message : 'Victim deleted successfully'
                 })
             })
             .catch(error => {
