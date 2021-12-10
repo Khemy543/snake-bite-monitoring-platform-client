@@ -82,10 +82,10 @@ export default {
   },
   mounted(){
     this.user = {
-      name : this.user_data?.name,
-      email : this.user_data?.email,
-      phone : this.user_data?.phone,
-      role : this.user_data?.role
+      name : this.user_data.name,
+      email : this.user_data.email,
+      phone : this.user_data.phone,
+      role : this.user_data.role
     }
   }
 };
