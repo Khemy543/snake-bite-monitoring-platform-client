@@ -93,7 +93,7 @@ export default {
   },
   publicRuntimeConfig : {
     axios : {
-      baseURL : 'https://snake-platform.herokuapp.com/api'
+      baseURL : process.env.API_URL
     }
   },
   /*

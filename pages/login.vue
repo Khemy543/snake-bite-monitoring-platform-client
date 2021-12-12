@@ -41,12 +41,12 @@ export default {
     methods :{
         handleLogin() {
             this.loading = true;
-            this.$axios.post('auth/login',{
+            this.$axios.post('/auth/login',{
                 email : this.email,
                 password :this.password
             })
             .then(response => {
-                if(response && response.data){
+                if(response){
                     this.$notify({type:'success', message :'Login successfull!'})
                    const { access_token } = response.data;
                     this.$cookies.set("authToken", access_token, {
