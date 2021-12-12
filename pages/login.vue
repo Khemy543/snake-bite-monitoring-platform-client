@@ -65,10 +65,8 @@ export default {
             .catch(error => {
                 if(error && error.response){
                     const { status } = error.response;
-                    console.log(status)
                     if(status == 401){
-                        console.log('here')
-                        this.$notify({type:'success', message :'Login successfull!'})
+                        this.$notify({type:'error', message :'Invalid Credentails!'})
                     }
                 }
             })

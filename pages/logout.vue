@@ -9,9 +9,9 @@ export default {
     mounted(){
         this.$axios.post('auth/logout', null)
         .then(response => {
-            if(response.data){
+            if(response){
                 this.$cookies.removeAll();
-                this.$route.push('/login')
+                this.$router.push('/login')
             }
         })
     }
