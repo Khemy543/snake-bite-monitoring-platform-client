@@ -13,6 +13,7 @@ module.exports = {
     "userProfile": "User Profile",
     "products":"Products",
     "victims" : "Victims",
+    "issueProduct" : "Issue Product",
     "components": "Components",
     "multiLevelCollapse": "Multilevel Collapse",
     "example": "Example Page",

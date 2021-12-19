@@ -6,31 +6,31 @@
         native-type="button"
         type="primary"
         class="btn-fill"
-        @click="addVictim"
+        @click="issueProduct"
       >
-        Add Victim
+        Issue Product
       </base-button>
     </div>
     <div class=" card p-4 mt-4">  
     <base-table :data="table" thead-classes="text-primary">
       <template slot="columns">
         <th>#</th>
-        <th>Name of Victim</th>
-        <th>Gender</th>
-        <th>Age</th>
-        <th>District</th>
-        <th>Town</th>
-        <th class="text-right">Actions</th>
+        <th>Victim Name</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Issued by</th>
+        <th>Date</th>
+       <!--  <th class="text-right">Actions</th> -->
       </template>
 
       <template slot-scope="{ row, index }">
         <td>{{ index + 1 }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.gender}}</td>
-        <td>{{ row.age}}</td>
-        <td>{{row.district.name}}</td>
-        <td>{{row.town}}</td>
-        <td class="text-right">
+        <td>{{ row.victim_name }}</td>
+        <td>{{ row.product_name}}</td>
+        <td>{{ row.quantity_issued_out}}</td>
+        <td>{{row.issued_by}}</td>
+        <td>{{row.date_issued}}</td>
+        <!-- <td class="text-right">
           <nuxt-link :to="`/victims/${row.id}/issue-product`">
           <el-tooltip
               content="Issue Product"
@@ -54,16 +54,6 @@
             :open-delay="300"
             placement="top"
           >
-          <nuxt-link :to="`/victims/${row.id}/edit-victim`">
-            <base-button
-              type="success"
-              icon
-              size="sm"
-              class="btn-link"
-            >
-              <i class="tim-icons icon-pencil"></i>
-            </base-button>
-          </nuxt-link>
           </el-tooltip>
           <el-tooltip
             content="Delete"
@@ -81,7 +71,7 @@
               <i class="tim-icons icon-simple-remove"></i>
             </base-button>
           </el-tooltip>
-        </td>
+        </td> -->
       </template>
     </base-table>
     <div>
@@ -101,9 +91,8 @@ export default {
     BaseTable,
   },
   async asyncData({ $axios }) {
-    const facilities = await $axios.get("/fetch/victims");
-    const { data, meta , links } = facilities.data
-    console.log(meta)
+    const response = await $axios.get("view/issued-out/products");
+    const { data, meta , links } = response.data
     return { 
         table: data,
         pagination : {
@@ -125,8 +114,8 @@ export default {
   },
 
   methods: {
-    addVictim(){
-      this.$router.push('victims/add-victim')
+    issueProduct(){
+      this.$router.push('victims/new/issue-product')
     },
    
     DeleteVictim(id){
