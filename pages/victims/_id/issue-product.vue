@@ -125,6 +125,8 @@ export default {
             try {
                 const response = await this.$axios.post(`product/${this.form.product_id}/issue/out`, this.form);
 
+                console.log(response)
+
                 if(response && response.data){
                     this.$notify({type:'success', message :'Product issued successfully!'})
                     this.$router.push('/victims')
