@@ -133,11 +133,13 @@ export default {
                 }
             } catch (error) {
 
-                if (response.data.message) {
-                     this.$notify({type:'error', message : response.data.message});
-                } else {
-                     this.$notify({type:'error', message :'Error Issuing product'});
-                }
+                console.log(error)
+
+                // if (response.data.message) {
+                //      this.$notify({type:'error', message : error.message});
+                // } else {
+                //      this.$notify({type:'error', message :'Error Issuing product'});
+                // }
                 
             }
         }
