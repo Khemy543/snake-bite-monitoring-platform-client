@@ -130,7 +130,13 @@ export default {
                     this.$router.push('/victims')
                 }
             } catch (error) {
-                this.$notify({type:'error', message :'Error Issuing product'});
+
+                if (response.data.message) {
+                     this.$notify({type:'error', message : response.data.message});
+                } else {
+                     this.$notify({type:'error', message :'Error Issuing product'});
+                }
+                
             }
         }
     }
