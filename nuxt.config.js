@@ -15,7 +15,7 @@
  */
 export default {
   env: {
-    baseUrl: 'https://snake-platform.herokuapp.com/api/'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   },
   head: {
     title: 'SMP',
